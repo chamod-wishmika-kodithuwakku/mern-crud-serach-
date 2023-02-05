@@ -1,0 +1,150 @@
+make folder to project , on it in the vs code
+
+in the vs code terminal - type -   npm init -y
+
+on terminal install all the packeges  -     npm i express nodemon cors mongoose body-parser
+
+dan aluth file ekk open karamu server.js kiyala mee server.js eke tami api application eka run wenna one server eka create karanna inne
+
+nodemon eken tamai server eka run karala change ekk karama ibema run wene , enisa package.json ekata gihin scripts wela, "start":"nodemon server.js"  kiyala denna, ewita npm start eken run kalahaka
+
+dn mono db ekata gihin aluth project ekk create ekk crl ekata namac deela , create karanna , itapase free cluster ekk hadanna, one nam cluster name eka wenas karanna , 
+api mulinma ehi database access ekata gihin -> add new database user yanna , metana autentication user name ekai password ekai dena. eke database user privileges wela, read and write any database kiyana eka denna, deela add user denna 
+
+itapase eke network access kiyana ekata gihin , add ip address kiyana eka denna ,allow acess from anywhere kiyana eka denna
+
+dn clusters welata gihin connect kiyana eka denna, eke connect your application kiyana eka denna, itapse ee connection string ek copy kara ganna, ee url eka server.js eke save kara ganna , ee urleke password ekai db name ekai denna
+
+//----------------------------------------pahata tika dala mulin connection eka balanna
+
+const express = require("express");
+
+const mongoose = require("mongoose");
+const app = express();
+const PORT = 9000;
+const DB_URL =
+  "mongodb+srv://willy:it20613204@cluster0.nblz9io.mongodb.net/kodi?retryWrites=true&w=majority";
+
+mongoose
+  .connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB CONNECTED kodiyoo");
+  })
+  .catch((err) => console.log(`DB CONNECTION ERROR`, err));
+
+app.listen(PORT, () => {
+  console.log(`App is running on ${PORT}`);
+});
+
+
+
+//-----------------------------------------------------------------------------------------------
+
+ilagata ape routes ,crete ,delte, updte welt adala routes hadiya yutui, itat kalin ape class eka adangu wena model eka hadagena sitiya yutui , aluth folder ekk hadanna models kiyala eke file ekk hadaganna kamatinamak.js kiyala
+
+dn routes danna aluth folder ekk create karanna routes kiyala ele tamai create, edit ,delete routes dane
+
+ee routes ekai ,models ekai hadagattata pase kelinma server.js ekata mulu code ekama danna
+
+/-----------------------------------------
+
+const express = require("express");
+
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
+const app = express();
+const postRoutes = require("./routes/posts");
+const cors = require("cors"); //for react app port configuration
+const { use } = require("./routes/posts");
+
+app.use(bodyParser.json());
+app.use(postRoutes);
+app.use(cors());
+
+const PORT = 8000;
+const DB_URL =
+  "mongodb+srv://chamod:chamod123@cluster0.cqmudrv.mongodb.net/mernCrud?retryWrites=true&w=majority";
+
+mongoose
+  .connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB CONNECTED kodiyoo");
+  })
+  .catch((err) => console.log(`DB CONNECTION ERROR`, err));
+
+app.listen(PORT, () => {
+  console.log(`App is running on ${PORT}`);
+});
+
+/--------------------------------------------------------------------------
+
+dn post man eken api check krl balanna wadada kiyala
+post man-  post - url (http://localhost:8000/post/save)   , body eka -json , itapase body eke - 
+{
+    "topic":"kodi",
+    'description" : "ck",
+    "postCategory": "kk"
+}
+
+back end server iwrai
+
+/--------------------------------------------------------------------------------
+front end back end port domain wenas nisa cors middle ware eka install karagani
+
+dn front end folder eka hadagamu
+
+npx create-react-app foldername  ( onenam cd foldername ginhin npm start dila clientside eka start kala haka)
+
+client side to server side katha karanna axios kiyana package eka bawitha karai
+ekata terminal eke-  npm i axios      lesa gahai
+
+dn foldername folder eke src eke ati samahara file one wene na ewa delete kara gatha yutui, app.css,app.test.js ,index.css, logo.svg kiyana ekat one na, itapase app.js eke okoma ain karai
+
+rcc eken kelinam class component ekk hadiya haka
+
+
+inpasu interface welt stylong dameemata boot strapui , font awsomeui damiya yutui
+
+bootstrap dane index.html ekatai
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+index.html eke  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> yatin uda link 2 danna
+
+icons ganeemata font awsome eke link ekat danna
+<script src="https://kit.fontawesome.com/dd9d993068.js" crossorigin="anonymous"></script>
+
+//----------------------------------------------------------------------------
+
+server side ekai cloent side ekao 2 ma run kirimata package.json eke scripts wela 
+
+ "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+
+    tika damanna
+
+    //-------------------------------------
+
+    cd client
+
+    npm i react-router-dom
+
+    //----------------------------
+
+    saren sarer request welata wena wenama link eka define karanna bari bawin ,
+
+    package.json eke proxy ekk define kraganna one
+
+    "proxy": "http://localhost:8000"
+
+    ewita kelinma axios.get("/posts") me lesa yediya haka
